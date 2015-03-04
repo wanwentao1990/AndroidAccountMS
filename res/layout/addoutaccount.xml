@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="3" 
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:text="新增支出"
+        android:textSize="40sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
+</LinearLayout>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" 
+    >
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dp"
+        >
+        <TextView
+        android:id="@+id/tvOutMoney"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="金  额："
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/txtOutMoney"
+        android:layout_alignBottom="@+id/txtOutMoney"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+       	/>
+        <EditText
+        android:id="@+id/txtOutMoney"
+       	android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvOutMoney"
+        android:inputType="number"
+        android:numeric="integer"
+        android:maxLength="9"
+        android:hint="0.00" 
+        />
+        <TextView
+        android:id="@+id/tvOutTime"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="时  间 :"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/txtOutTime"
+        android:layout_alignBottom="@+id/txtOutTime"
+        android:layout_toLeftOf="@+id/txtOutMoney"
+       	/>
+        <EditText
+        android:id="@+id/txtOutTime"
+       	android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvOutTime"
+        android:layout_below="@+id/txtOutMoney"
+        android:inputType="datetime"
+        android:hint="2011-01-01" 
+        />
+        <TextView
+        android:id="@+id/tvOutType"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="类  别 :"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/spOutType"
+        android:layout_alignBottom="@+id/spOutType"
+        android:layout_alignLeft="@+id/tvOutTime"
+       	/>
+        <Spinner 
+        android:id="@+id/spOutType"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvOutType"
+        android:layout_below="@+id/txtOutTime"
+        android:entries="@array/intype"
+        />
+        <TextView
+        android:id="@+id/tvOutAddress"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="地址 :"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/txtOutAddress"
+        android:layout_alignBottom="@+id/txtOutAddress"
+        android:layout_toLeftOf="@+id/spOutType"
+       	/>
+        <EditText
+        android:id="@+id/txtOutAddress"
+       	android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvOutAddress"
+        android:layout_below="@+id/spOutType"
+        android:singleLine="false"
+        />
+        <TextView
+        android:id="@+id/tvOutMark"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="备  注 :"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/txtOutMark"
+        android:layout_toLeftOf="@+id/txtOutAddress"
+       	/>
+        <EditText
+        android:id="@+id/txtOutMark"
+       	android:layout_width="210dp"
+        android:layout_height="150dp"
+        android:layout_toRightOf="@+id/tvOutMark"
+        android:layout_below="@+id/txtOutAddress"
+        android:gravity="top"
+        android:singleLine="false"
+        />
+    </RelativeLayout>
+</LinearLayout>
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="3"
+    >
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dp"
+        >
+        <Button
+        android:id="@+id/btnOutCancel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:text="取消" />
+        <Button
+        android:id="@+id/btnOutSave"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btnOutCancel"
+        android:text="保存" />
+    </RelativeLayout>
+</LinearLayout>
+</LinearLayout>

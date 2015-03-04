@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="3" 
+    >
+    <TextView
+        android:id="@+id/inouttitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:text="收入管理"
+        android:textSize="40sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
+</LinearLayout>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" 
+    >
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dp"
+        >
+        <TextView
+        android:id="@+id/tvInOutMoney"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="金  额："
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/txtInOutMoney"
+        android:layout_alignBottom="@+id/txtInOutMoney"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+       	/>
+        <EditText
+        android:id="@+id/txtInOutMoney"
+       	android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvInOutMoney"
+        android:inputType="number"
+        android:numeric="integer"
+        android:maxLength="9"
+        android:hint="0.00" 
+        />
+        <TextView
+        android:id="@+id/tvInOutTime"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="时  间 :"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/txtInOutTime"
+        android:layout_alignBottom="@+id/txtInOutTime"
+        android:layout_toLeftOf="@+id/txtInOutMoney"
+       	/>
+        <EditText
+        android:id="@+id/txtInOutTime"
+       	android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvInOutTime"
+        android:layout_below="@+id/txtInOutMoney"
+        android:inputType="datetime"
+        android:hint="2011-01-01" 
+        />
+        <TextView
+        android:id="@+id/tvInOutType"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="类  别 :"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/spInOutType"
+        android:layout_alignBottom="@+id/spInOutType"
+        android:layout_alignLeft="@+id/tvInOutTime"
+       	/>
+        <Spinner 
+        android:id="@+id/spInOutType"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvInOutType"
+        android:layout_below="@+id/txtInOutTime"
+        android:entries="@array/intype"
+        />
+        <TextView
+        android:id="@+id/tvInOut"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="付款方 :"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/txtInOut"
+        android:layout_alignBottom="@+id/txtInOut"
+        android:layout_toLeftOf="@+id/spInOutType"
+       	/>
+        <EditText
+        android:id="@+id/txtInOut"
+       	android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvInOut"
+        android:layout_below="@+id/spInOutType"
+        android:singleLine="false"
+        />
+        <TextView
+        android:id="@+id/tvInOutMark"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="备  注 :"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/txtInOutMark"
+        android:layout_toLeftOf="@+id/txtInOut"
+       	/>
+        <EditText
+        android:id="@+id/txtInOutMark"
+       	android:layout_width="210dp"
+        android:layout_height="150dp"
+        android:layout_toRightOf="@+id/tvInOutMark"
+        android:layout_below="@+id/txtInOut"
+        android:gravity="top"
+        android:singleLine="false"
+        />
+    </RelativeLayout>
+</LinearLayout>
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="3"
+    >
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dp"
+        >
+        <Button
+        android:id="@+id/btnInOutDelete"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:text="删除" />
+        <Button
+        android:id="@+id/btnInOutEdit"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btnInOutDelete"
+        android:text="修改" />
+    </RelativeLayout>
+</LinearLayout>
+</LinearLayout>

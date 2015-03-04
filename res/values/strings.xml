@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidMS</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="intype">
+	<item>工资</item>
+	<item>股票</item>
+	<item>其他</item>
+	</string-array>
+
+</resources>

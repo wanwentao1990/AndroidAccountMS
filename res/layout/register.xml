@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tvRusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="18dp"
+        android:text="请输入注册用户名：" />
+
+    <EditText
+        android:id="@+id/txtRusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvRusername"
+        android:layout_below="@+id/tvRusername"
+        android:layout_marginTop="14dp"
+        android:hint="请输入注册用户名" />
+
+    <TextView
+        android:id="@+id/tvRpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtRusername"
+        android:layout_below="@+id/txtRusername"
+        android:layout_marginTop="16dp"
+        android:text="请输入注册密码：" />
+
+    <EditText
+        android:id="@+id/txtRpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvRpassword"
+        android:layout_below="@+id/tvRpassword"
+        android:layout_marginTop="22dp"
+        android:inputType="textPassword"
+        android:hint="请输入注册密码" />
+    
+   <TextView
+        android:id="@+id/tvRpasswordconfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtRpassword"
+        android:layout_below="@+id/txtRpassword"
+        android:layout_marginTop="16dp"
+        android:text="请确认注册密码：" />
+
+    <EditText
+        android:id="@+id/txtRpasswordconfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvRpasswordconfirm"
+        android:layout_below="@+id/tvRpasswordconfirm"
+        android:layout_marginTop="22dp"
+        android:inputType="textPassword"
+        android:hint="请确认注册密码" />
+
+    <Button
+        android:id="@+id/btnRconfirm"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtRpasswordconfirm"
+        android:layout_below="@+id/txtRpasswordconfirm"
+        android:layout_marginTop="18dp"
+        android:text="确认" />
+
+    <Button
+        android:id="@+id/btnRcancle"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnRconfirm"
+        android:layout_alignBottom="@+id/btnRconfirm"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="31dp"
+        android:text="取消" />
+
+</RelativeLayout>
