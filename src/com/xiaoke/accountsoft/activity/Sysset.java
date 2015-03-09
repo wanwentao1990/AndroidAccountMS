@@ -54,6 +54,20 @@ public class Sysset extends Activity {
 		});
 	}
 	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (null != MainActivity.localService) {
+			MainActivity.localService.playMusic();
+		}
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		MainActivity.localService.pauseMusic();
+	}
+	
 	private String readUsername() {
 		SharedPreferences sharedPreferences = getSharedPreferences("username", Activity.MODE_PRIVATE);
 		String usernameString = sharedPreferences.getString("username", "");

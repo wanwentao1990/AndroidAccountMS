@@ -1,11 +1,18 @@
 package com.xiaoke.accountsoft.activity;
 
 import com.xiaoke.accountsoft.extra.ItemAdapter;
+import com.xiaoke.accountsoft.extra.WriteCacheAsyncTask;
+import com.xiaoke.accountsoft.service.BackGroundMusicService;
+import com.xiaoke.accountsoft.service.BackGroundMusicService.LocalBinder;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +27,23 @@ public class MainActivity extends Activity {
 	String[] titles = new String[]{"新增支出","新增收入","我的支出","我的收入","数据管理","系统设置","收支便签","退出当前账号"};
 	int[] images = new int[]{R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,
 			R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher};
+	public static BackGroundMusicService localService;
+	ServiceConnection connection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			LocalBinder binder = (LocalBinder)service;
+			localService = binder.getService();
+			localService.setMusicSource();
+			localService.playMusic();
+		}
+	};
+	
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,17 +88,9 @@ public class MainActivity extends Activity {
 					startActivity(intent);
 					break;
 				case 7:
-					Thread thread = new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							wirteCacheData();
-						}
-					});
-					thread.start();
+					WriteCacheAsyncTask task = new WriteCacheAsyncTask();
+					task.execute(1000);
 					intent = new Intent(MainActivity.this,Login.class);
-//					intent.putExtra("flag", "exit");
 					startActivity(intent);
 					finish();
 					break;
@@ -82,18 +98,34 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		Intent intent = new Intent(MainActivity.this,BackGroundMusicService.class);
+		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 	}
 	
-	public void exit() {
-		
+	@Override
+	public void onStart(){
+		super.onStart();
 	}
 	
-	public void wirteCacheData() {
-		SharedPreferences mySharedPreferences = getSharedPreferences("loginstatus", Activity.MODE_PRIVATE);
-		SharedPreferences.Editor editor = mySharedPreferences.edit();
-		editor.putString("loginstatus", "false");
-		editor.commit();
-		Log.e("wwtlog", "退出数据写入成功！");
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (null != localService) {
+			localService.playMusic();
+		}
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		localService.pauseMusic();
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		localService.stopMusic();
+		unbindService(connection);
 	}
 
 	@Override

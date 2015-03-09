@@ -74,4 +74,18 @@ public class Register extends Activity{
 			}
 		});
 	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (null != MainActivity.localService) {
+			MainActivity.localService.playMusic();
+		}
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		MainActivity.localService.pauseMusic();
+	}
 }

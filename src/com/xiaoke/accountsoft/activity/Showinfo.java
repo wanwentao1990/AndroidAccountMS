@@ -98,6 +98,20 @@ public class Showinfo extends Activity {
 		registerBoradcastReceiver();
 	}
 	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (null != MainActivity.localService) {
+			MainActivity.localService.playMusic();
+		}
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		MainActivity.localService.pauseMusic();
+	}
+	
 	private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver(){
 
 		@Override

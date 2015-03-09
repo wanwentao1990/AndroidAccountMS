@@ -42,6 +42,20 @@ public class Inaccountinfo extends Activity {
 		});
 	}
 	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (null != MainActivity.localService) {
+			MainActivity.localService.playMusic();
+		}
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		MainActivity.localService.pauseMusic();
+	}
+	
 	public void showInfo() {
 		String[] strInfo = null;
 		ArrayAdapter<String> arrayAdapter = null;

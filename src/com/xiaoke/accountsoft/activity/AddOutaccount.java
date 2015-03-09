@@ -90,6 +90,21 @@ public class AddOutaccount extends Activity {
 			}
 		});
 	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (null != MainActivity.localService) {
+			MainActivity.localService.playMusic();
+		}
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		MainActivity.localService.pauseMusic();
+	}
+	
 	private void updateDisplay() {
 		txtOutTime.setText(new StringBuilder().append(mYear).append('-').append(mMonth).append('-').append(mDay));
 	}

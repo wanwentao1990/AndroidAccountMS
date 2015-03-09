@@ -1,15 +1,17 @@
 package com.xiaoke.accountsoft.activity;
 
-import android.R.bool;
 import android.util.*;
 import com.xiaoke.accountsoft.dao.PwdDAO;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.StaticLayout;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,6 +22,7 @@ public class Login extends Activity{
 
 	private EditText txtUsername, txtPassword;
 	private Button btnLogin, btnRegister, btnCancle;
+	private SoundPool soundPool;
 	
 	final static int CODE = 0x717;
 	@Override
@@ -34,6 +37,7 @@ public class Login extends Activity{
 		
 		setContentView(R.layout.login);
 		
+		soundPool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 		txtUsername = (EditText)findViewById(R.id.txtUsername);
 		txtPassword = (EditText)findViewById(R.id.txtPassword);
 		txtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -46,7 +50,7 @@ public class Login extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PwdDAO pwdDAO = new PwdDAO(Login.this);
+ 				PwdDAO pwdDAO = new PwdDAO(Login.this);
 				if (!txtUsername.getText().toString().isEmpty() && !txtPassword.getText().toString().isEmpty()) {
 					final String username = txtUsername.getText().toString();
 					String password = txtPassword.getText().toString();
@@ -96,6 +100,30 @@ public class Login extends Activity{
 			}
 		});
 	}
+	
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event){
+//		switch (keyCode) {
+//		case KeyEvent.KEYCODE_DPAD_LEFT:	
+//			soundPool.play(soundPool.load(Login.this, R.raw.clicksound, 1), 1, 1, 0, 0, 1);
+//			break;
+//
+//		default:
+//			soundPool.play(soundPool.load(Login.this, R.raw.clicksound, 1), 1, 1, 0, 0, 1);
+//			break;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event){
+//		int action = event.getAction();  
+//		if (action == MotionEvent.ACTION_DOWN) {
+//			soundPool.play(soundPool.load(Login.this, R.raw.clicksound, 1), 1, 1, 0, 0, 1);
+//			Log.e("wwtlog", "Touch Down!");
+//			return true;
+//		}
+//		return super.onTouchEvent(event);
+//	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
