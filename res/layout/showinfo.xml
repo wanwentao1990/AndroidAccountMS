@@ -49,11 +49,9 @@
         android:orientation="vertical"
         android:layout_weight="0.94"
         >
-        <ListView 
-            android:id="@+id/lvinfo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            ></ListView>
+    <com.xiaoke.accountsoft.view.RTPullListView
+        android:id="@+id/pullListView"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

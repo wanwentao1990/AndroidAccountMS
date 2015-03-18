@@ -9,6 +9,8 @@ import com.xiaoke.accountsoft.dao.OutaccountDAO;
 import com.xiaoke.accountsoft.model.Tb_flag;
 import com.xiaoke.accountsoft.model.Tb_inaccount;
 import com.xiaoke.accountsoft.model.Tb_outaccount;
+import com.xiaoke.accountsoft.view.RTPullListView;
+import com.xiaoke.accountsoft.view.RTPullListView.OnRefreshListener;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -16,6 +18,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -23,26 +28,97 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Showinfo extends Activity {
 	
 	static final String ACTION_NAME = "showInfoListUpdateBroad";
+	private static final int INTERNET_FAILURE = -1;
+	private static final int LOAD_SUCCESS = 1;
+	private static final int LOAD_MORE_SUCCESS = 3;
+	private static final int NO_MORE_INFO = 4;
+	private static final int LOAD_NEW_INFO = 5;
 	
-	private ListView lvinfoListView;
+	private RTPullListView pullListView;
+	private ProgressBar moreProgressBar;
+	
+	private List<String> dataList;
+	private ArrayAdapter<String> adapter;
 	private String strType;
-//	private int    currentTypeId;
 	private Button outButton,inButton,flagbButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.showinfo);
-		lvinfoListView = (ListView)findViewById(R.id.lvinfo);
+		pullListView = (RTPullListView)findViewById(R.id.pullListView);
 		outButton = (Button)findViewById(R.id.btnoutinfo);
 		inButton = (Button)findViewById(R.id.btnininfo);
 		flagbButton = (Button)findViewById(R.id.btnflaginfo);
+		dataList = new ArrayList<String>();
+		
+		LayoutInflater inflater = LayoutInflater.from(this);
+		View view = inflater.inflate(R.layout.list_footview, null);
+		RelativeLayout footView = (RelativeLayout)view.findViewById(R.id.list_footview);
+		moreProgressBar = (ProgressBar)view.findViewById(R.id.footer_progress);
+		pullListView.addFooterView(footView);
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataList);
+		pullListView.setAdapter(adapter);
 		ShowInfo(R.id.btnflaginfo);
+		
+		pullListView.setonRefreshListener(new OnRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(2000);
+							dataList.clear();
+							Message message = myHandler.obtainMessage();
+							message.what = LOAD_NEW_INFO;
+							myHandler.sendMessage(message);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}).start();
+			}
+		});
+		
+		footView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(2000);
+							dataList.add("!!!!!!!!!!!!!!!!!!!!");
+							Message message = myHandler.obtainMessage();
+							message.what = LOAD_MORE_SUCCESS;
+							myHandler.sendMessage(message);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}).start();
+			}
+		});
 		
 		outButton.setOnClickListener(new OnClickListener() {
 			
@@ -71,7 +147,7 @@ public class Showinfo extends Activity {
 			}
 		});
 		
-		lvinfoListView.setOnItemClickListener(new OnItemClickListener() {
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -120,13 +196,12 @@ public class Showinfo extends Activity {
 			String typeString = intent.getStringExtra("strType");
 			String action = intent.getAction();
 			if (action.equals(ACTION_NAME)) {
-//				刷新列表
 				if (typeString.equals("btnoutinfo")) {
-					ShowInfo(R.id.btnoutinfo);
+//					ShowInfo(R.id.btnoutinfo);
 				}else if (typeString.equals("btnininfo")) {
-					ShowInfo(R.id.btnininfo);
+//					ShowInfo(R.id.btnininfo);
 				}else if (typeString.equals("btnflaginfo")) {
-					ShowInfo(R.id.btnflaginfo);
+//					ShowInfo(R.id.btnflaginfo);
 				}
 			}
 		}
@@ -138,8 +213,7 @@ public class Showinfo extends Activity {
 		registerReceiver(mBroadcastReceiver, myIntentFilter);
 	}
 	public void ShowInfo(int intType) {
-		String[] strinfoStrings = null;
-		ArrayAdapter<String> adapter = null;
+		dataList.clear();
 		switch (intType) {
 		case R.id.btnoutinfo:
 //			currentTypeId = R.id.btnoutinfo;
@@ -147,11 +221,8 @@ public class Showinfo extends Activity {
 			OutaccountDAO outaccountDAO = new OutaccountDAO(Showinfo.this);
 			List<Tb_outaccount> listoutinfosList = new ArrayList<Tb_outaccount>();
 			listoutinfosList = outaccountDAO.getScrollData(0, (int)outaccountDAO.getCount());
-			strinfoStrings = new String[listoutinfosList.size()];
-			int i = 0;
 			for (Tb_outaccount tb_outaccount : listoutinfosList){
-				strinfoStrings[i] = tb_outaccount.getId()+"|"+tb_outaccount.getType()+" "+String.valueOf(tb_outaccount.getMoney())+"元"+tb_outaccount.getTime();
-				i++;
+				dataList.add(tb_outaccount.getId()+"|"+tb_outaccount.getType()+" "+String.valueOf(tb_outaccount.getMoney())+"元"+tb_outaccount.getTime());
 			}
 			break;
 		case R.id.btnininfo:
@@ -160,11 +231,8 @@ public class Showinfo extends Activity {
 			InaccountDAO inaccountDAO = new InaccountDAO(Showinfo.this);
 			List<Tb_inaccount> listininfoList = new ArrayList<Tb_inaccount>();
 			listininfoList = inaccountDAO.getScrollData(0, (int)inaccountDAO.getCount());
-			strinfoStrings = new String[listininfoList.size()];
-			int m = 0;
 			for (Tb_inaccount tb_inaccount : listininfoList){
-				strinfoStrings[m] = tb_inaccount.getId()+"|"+tb_inaccount.getType()+" "+String.valueOf(tb_inaccount.getMoney())+"元"+tb_inaccount.getTime();
-				m++;
+				dataList.add(tb_inaccount.getId()+"|"+tb_inaccount.getType()+" "+String.valueOf(tb_inaccount.getMoney())+"元"+tb_inaccount.getTime());
 			}
 			break;
 		case R.id.btnflaginfo:
@@ -173,22 +241,51 @@ public class Showinfo extends Activity {
 			FlagDAO flagDAO = new FlagDAO(Showinfo.this);
 			List<Tb_flag> list = new ArrayList<Tb_flag>();
 			list = flagDAO.getScrollData(0, (int)flagDAO.getCount());
-			strinfoStrings = new String[list.size()];
 			int n = 0;
 			for (Tb_flag tb_flag : list){
-				strinfoStrings[n] = tb_flag.getId()+"|"+tb_flag.getFlag();
-				if (strinfoStrings[n].length() > 15) {
-					strinfoStrings[n] = strinfoStrings[n].substring(0,15)+"......";
+				dataList.add(tb_flag.getId()+"|"+tb_flag.getFlag());
+				if (dataList.get(n).length() > 15) {
+					String tmpStr = dataList.get(n);  
+					dataList.remove(n); 
+					dataList.add(tmpStr.substring(0,15)+"......");
 				}
 				n++;
 			}
 			break;
 		default:
 			break;
+			}
+		adapter.notifyDataSetChanged();
 		}
-		
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,strinfoStrings);
-		lvinfoListView.setAdapter(adapter);
-	}
+	
+	 private Handler myHandler = new Handler(){
+
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch (msg.what) {
+				case LOAD_MORE_SUCCESS:
+					moreProgressBar.setVisibility(View.GONE);
+//					Android listView数据刷新，类似于reload()
+					adapter.notifyDataSetChanged();
+					pullListView.setSelectionfoot();
+					break;
+
+				case LOAD_NEW_INFO:
+					if (strType.equals("btnininfo")) {
+						ShowInfo(R.id.btnininfo);
+					}else if (strType.equals("btnoutinfo")) {
+						ShowInfo(R.id.btnoutinfo);
+					}else if (strType.equals("btnflaginfo")) {
+						ShowInfo(R.id.btnflaginfo);
+					}
+					pullListView.onRefreshComplete();
+					break;
+				default:
+					break;
+				}
+			}
+	    	
+	    };
 	
 }

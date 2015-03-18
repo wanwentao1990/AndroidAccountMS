@@ -45,6 +45,10 @@ public class FlagManager extends Activity {
 				flagDAO.update(tb_flag);
 				
 				Toast.makeText(FlagManager.this, "【便签数据】修改成功！", Toast.LENGTH_SHORT).show();
+				
+				Intent intent = new Intent(Showinfo.ACTION_NAME);
+				intent.putExtra("strType", "btnflaginfo");
+				sendBroadcast(intent);
 			}
 		});
 		
