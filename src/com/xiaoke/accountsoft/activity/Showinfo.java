@@ -12,9 +12,12 @@ import com.xiaoke.accountsoft.model.Tb_outaccount;
 import com.xiaoke.accountsoft.view.RTPullListView;
 import com.xiaoke.accountsoft.view.RTPullListView.OnRefreshListener;
 
+import android.R.integer;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -25,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -35,12 +39,8 @@ import android.widget.TextView;
 public class Showinfo extends Activity {
 	
 	static final String ACTION_NAME = "showInfoListUpdateBroad";
-	private static final int INTERNET_FAILURE = -1;
-	private static final int LOAD_SUCCESS = 1;
 	private static final int LOAD_MORE_SUCCESS = 3;
-	private static final int NO_MORE_INFO = 4;
 	private static final int LOAD_NEW_INFO = 5;
-	
 	private RTPullListView pullListView;
 	private ProgressBar moreProgressBar;
 	
@@ -67,6 +67,56 @@ public class Showinfo extends Activity {
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataList);
 		pullListView.setAdapter(adapter);
 		ShowInfo(R.id.btnflaginfo);
+		
+		pullListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				final String dataString = dataList.get(position - 1);
+
+				new AlertDialog.Builder(Showinfo.this).setTitle("系统提示")//设置对话框标题  
+				  
+			     .setMessage("请确认删除该条数据！")//设置显示的内容  
+			  
+			     .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮  
+			  
+			          
+			  
+			         @Override  
+			  
+			         public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件  
+			  
+			             // TODO Auto-generated method stub  
+			  
+							if (strType.equals("btnoutinfo")) {
+								RemoveData(R.id.btnoutinfo, dataString);
+							}else if (strType.equals("btnininfo")) {
+//								ShowInfo(R.id.btnininfo);
+								RemoveData(R.id.btnininfo, dataString);
+							}else if (strType.equals("btnflaginfo")) {
+//								ShowInfo(R.id.btnflaginfo);
+								RemoveData(R.id.btnflaginfo, dataString);
+							} 
+			  
+			         }  
+			  
+			     }).setNegativeButton("返回",new DialogInterface.OnClickListener() {//添加返回按钮  
+			  
+			          
+			  
+			         @Override  
+			  
+			         public void onClick(DialogInterface dialog, int which) {//响应事件  
+			  
+			             // TODO Auto-generated method stub  
+			         }  
+			  
+			     }).show();//在按键响应事件中显示此对话框  
+				return false;
+			}
+		});
 		
 		pullListView.setonRefreshListener(new OnRefreshListener() {
 			
@@ -251,6 +301,32 @@ public class Showinfo extends Activity {
 				}
 				n++;
 			}
+			break;
+		default:
+			break;
+			}
+		adapter.notifyDataSetChanged();
+		}
+	
+	public void RemoveData(int intType,String string ) {
+		int endIndex = string.indexOf("|");
+		String str = string.substring(0, endIndex);
+		int index = Integer.valueOf(str);
+		switch (intType) {
+		case R.id.btnoutinfo:
+			OutaccountDAO outaccountDAO = new OutaccountDAO(Showinfo.this);
+			outaccountDAO.delete(index);
+			break;
+		case R.id.btnininfo:
+			strType="btnininfo";
+			InaccountDAO inaccountDAO = new InaccountDAO(Showinfo.this);
+			inaccountDAO.delete(index);
+			break;
+		case R.id.btnflaginfo:
+//			currentTypeId = R.id.btnflaginfo;
+			strType="btnflaginfo";
+			FlagDAO flagDAO = new FlagDAO(Showinfo.this);
+			flagDAO.delete(index);
 			break;
 		default:
 			break;

@@ -2,6 +2,8 @@ package com.xiaoke.accountsoft.service;
 
 import java.io.IOException;
 
+import com.xiaoke.accountsoft.activity.SettingActivity;
+
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;

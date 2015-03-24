@@ -34,6 +34,7 @@
         <activity android:name=".Sysset" />
         <activity android:name=".InfoManage" />
         <activity android:name=".FlagManager" />
+        <activity android:name=".SettingActivity" />
         <service  android:name="com.xiaoke.accountsoft.service.BackGroundMusicService"/>
         
     </application>

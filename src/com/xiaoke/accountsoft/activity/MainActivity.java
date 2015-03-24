@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -23,6 +25,10 @@ import android.widget.GridView;
 
 public class MainActivity extends Activity {
 
+	private static final int ITEM1 = Menu.FIRST;
+	private static final int ITEM2 = Menu.FIRST + 1;
+	
+	
 	GridView info;
 	String[] titles = new String[]{"新增支出","新增收入","我的支出","我的收入","数据管理","系统设置","收支便签","退出当前账号"};
 	int[] images = new int[]{R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,
@@ -131,7 +137,12 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+//		MenuInflater inflater = new MenuInflater(this);
+//		inflater.inflate(R.menu.setting, menu);
+//		return super.onCreateOptionsMenu(menu);
+		SubMenu subFileMenu = menu.addSubMenu("音乐");
+		subFileMenu.add(0,ITEM1,0,"打开");
+		subFileMenu.add(0,ITEM2,0,"关闭");
 		return true;
 	}
 
@@ -140,10 +151,23 @@ public class MainActivity extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+//		if (item.getGroupId() == R.id.setting) {
+//			if (item.isChecked()) {
+//				item.setCheckable(false);
+//				localService.playMusic();
+//			}else {
+//				item.setCheckable(true);
+//				localService.pauseMusic();
+//			}
+//		}
+		switch (item.getItemId()) {
+		case ITEM1:
+			localService.playMusic();
+			break;
+		case ITEM2:
+			localService.pauseMusic();
+			break;
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 }
